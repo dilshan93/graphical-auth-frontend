@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  GETALL: "http://localhost:8090/login/getAll"
+  GETALL: "http://localhost:8090/login/getAll",
+  SAVE: "http://localhost:8090/login/Save"
 };
 
 /*

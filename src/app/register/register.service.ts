@@ -6,15 +6,11 @@ import {environment} from "../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class RegisterService {
 
   constructor(private http: HttpClient) { }
 
-  getAllDetails(): Observable<any>{
-    return this.http.get(environment.GETALL);
-  }
-
-  getUser(obj:any): Observable<any>{
+  saveUser(obj:any): Observable<any>{
     return this.http.post(environment.SAVE, obj);
   }
 }
