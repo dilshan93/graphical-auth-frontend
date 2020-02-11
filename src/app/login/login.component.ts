@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "./login.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -7,19 +8,27 @@ import {LoginService} from "./login.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  names:any;
-  constructor(private loginService: LoginService) { }
+  public loginFormGroup: FormGroup
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService) { }
 
   ngOnInit() {
     this.getAllData();
+    this.initForm();
+  }
+
+  private initForm() {
+    this.loginFormGroup = this.formBuilder.group({
+      username: this.formBuilder.control(null),
+      password: this.formBuilder.control(null)
+
+    })
   }
 
   getAllData(){
 
     this.loginService.getAllDetails().subscribe( (response) =>{
       if(response){
-        this.names = response;
+        console.log(response);
       }
 
     },
@@ -28,4 +37,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  loginUser() {
+
+  }
 }
