@@ -11,8 +11,7 @@ export class HomeComponent implements AfterViewInit{
 
   @ViewChild('myCanvas', {static: false}) public myCanvas: ElementRef;
   private context: CanvasRenderingContext2D;
-  columns = 2;
-  rows    = 2;
+  private dataList: string[] = [];
 
 
   constructor() { }
@@ -29,9 +28,10 @@ export class HomeComponent implements AfterViewInit{
     background.onload = () =>{
       this.context.drawImage(background,0,0,200,200);
       this.draw();
+      this.captureEvents(canvasEl);
     }
 
-    this.captureEvents(canvasEl)
+
 
 
   }
@@ -46,12 +46,16 @@ export class HomeComponent implements AfterViewInit{
     //   let tileHeight = Math.round(canvas.height / this.rows);
     let tileWidth  = Math.round((event.offsetX/7) * 2 - 1);
     let tileHeight = Math.round((event.offsetY/7) * 2 - 1);
+    this.dataList.push(tileWidth +" , "+tileHeight);
+
     console.log("Coordinate x: " + tileWidth,
       "Coordinate y: " + tileHeight);
+    console.log(this.dataList);
   }
 
   private captureEvents(canvasEl: HTMLCanvasElement) {
 
+    // @ts-ignore
     fromEvent(canvasEl, 'mousedown').subscribe((res:[MouseEvent, MouseEvent]) =>{
 
       this.getMousePosition(canvasEl, res);
@@ -78,5 +82,27 @@ export class HomeComponent implements AfterViewInit{
   }
 
 
+  submitUser() {
+    let pass='';
+    if (this.dataList.length != 0){
+      if (this.dataList.length == 5){
 
+        this.dataList.forEach(value => {
+          if(value === value[this.dataList.length-1]){
+            pass += value;
+          }else{
+            pass += value+" ,";
+          }
+
+        });
+        this.dataList.length = 0;
+      } else{
+        alert("Wrong !!!!!");
+        this.dataList.length = 0;
+        return;
+      }
+      console.log(pass);
+      pass = null;
+    }
+  }
 }
