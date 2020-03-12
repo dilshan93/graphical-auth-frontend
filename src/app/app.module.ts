@@ -7,12 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
+import { HomeComponent } from './home/home.component';
+import { ImageMapComponent } from './image-map/image-map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent,
+    ImageMapComponent
   ],
   imports: [
     BrowserModule,

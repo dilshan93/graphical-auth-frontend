@@ -15,6 +15,6 @@ export class LoginService {
   }
 
   getUser(obj:any): Observable<any>{
-    return this.http.post(environment.SAVE, obj);
+    return this.http.post(environment.GETUSER, obj);
   }
 }
