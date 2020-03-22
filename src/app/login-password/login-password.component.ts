@@ -1,0 +1,142 @@
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UserRegisterDataService} from "../shard_services/user-register-data.service";
+import {AuthenticationService} from "../shard_services/authentication.service";
+import {fromEvent} from "rxjs";
+import {StorTokenService} from "../shard_services/stor-token.service";
+
+@Component({
+  selector: 'app-login-password',
+  templateUrl: './login-password.component.html',
+  styleUrls: ['./login-password.component.scss']
+})
+export class LoginPasswordComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('myCanvas', {static: false}) public myCanvas: ElementRef;
+  private context: CanvasRenderingContext2D;
+  private dataList: string[] = [];
+  private dataObj: any;
+  isLoggedIn = false;
+  isLoginFailed = false;
+  errorMessage = '';
+  roles: string[] = [];
+
+  constructor(private registerService: UserRegisterDataService, private authenticationService: AuthenticationService,
+              private storTokenService : StorTokenService) { }
+
+  ngOnInit(): void {
+    if (this.storTokenService.getToken()) {
+      this.isLoggedIn = true;
+      this.roles = this.storTokenService.getUser().roles;
+    }
+    this.registerService.getLoginData().subscribe(value => {
+      this.dataObj = value;
+    });
+
+  }
+
+
+  ngAfterViewInit(): void {
+    const canvasEl: HTMLCanvasElement = this.myCanvas.nativeElement;
+    this.context = (<HTMLCanvasElement>this.myCanvas.nativeElement).getContext('2d');
+    let background = new Image();
+    background.src = "assets/images/test.jpg";
+    background.onload = () => {
+      this.context.drawImage(background, 0, 0, 500, 500);
+      this.draw();
+      this.captureEvents(canvasEl);
+    }
+  }
+
+  draw() {
+    if (this.context) {
+
+      for (var x = 0.5; x < 500; x += 30) {
+        this.context.moveTo(x, 0);
+        this.context.lineTo(x, 500);
+      }
+
+      for (var y = 0.5; y < 500; y += 30) {
+        this.context.moveTo(0, y);
+        this.context.lineTo(500, y);
+
+      }
+
+      this.context.strokeStyle = 'black';
+      this.context.stroke();
+    }
+  }
+
+  loginUser() {
+
+    let pass = '';
+    if (this.dataList.length != 0) {
+      if (this.dataList.length >= 6) {
+
+        this.dataList.forEach(function(i, idx, array) {
+          if (idx === array.length - 1) {
+            pass += i;
+          } else {
+            pass += i + ",";
+          }
+        });
+        this.dataList.length = 0;
+      } else {
+        alert("Minimam 6 points should be selected");
+        this.dataList.length = 0;
+        return;
+      }
+      this.dataObj.passWord = pass;
+      console.log(this.dataObj);
+      this.authenticationService.getLoginUser(this.dataObj).subscribe(
+        data => {
+          this.storTokenService.setToken(data.token);
+          this.storTokenService.setUser(data);
+
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          console.log(this.storTokenService.getUser());
+          this.roles = this.storTokenService.getUser().roles;
+          //this.dataObj = null;
+          this.reloadPage();
+        },
+        err => {
+          this.errorMessage = 'err.error.message';
+          this.isLoginFailed = true;
+        }
+      );
+      pass = null;
+    } else {
+      alert("Please create your password");
+
+    }
+  }
+
+  private getMousePosition(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+
+    // let tileWidth  = Math.round(canvas.width / this.columns);
+    //   let tileHeight = Math.round(canvas.height / this.rows) ;
+    let tileWidth =Math.round(Math.round(x) / 10) * 10 ;
+    let tileHeight = Math.round(Math.round(y) / 10) * 10 ;
+    this.dataList.push(tileWidth + "," + tileHeight);
+
+    console.log("Coordinate x: " + tileWidth,
+      "Coordinate y: " + tileHeight);
+  }
+  private captureEvents(canvasEl: HTMLCanvasElement) {
+
+    // @ts-ignore
+    fromEvent(canvasEl, 'mousedown').subscribe((res: [MouseEvent, MouseEvent]) => {
+
+      this.getMousePosition(canvasEl, res);
+    });
+  }
+
+  reloadPage() {
+    window.location.reload();
+  }
+
+
+}

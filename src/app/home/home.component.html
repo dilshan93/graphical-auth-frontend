@@ -1,9 +1,15 @@
 <div (load)='draw()'>
 
-  <canvas #myCanvas width="200" height="200" id='canvas'>
+  <canvas #myCanvas width="500" height="500" id='canvas'>
   </canvas>
   <div class="form-group">
-    <button  class="btn btn-primary" (click)="submitUser()">Login</button>
+    <button  class="btn btn-primary" (click)="submitUser()">Proceed</button>
 
+  </div>
+  <div class="alert alert-warning" *ngIf="isSignUpFailed">
+    Signup failed!<br />{{ errorMessage }}
+  </div>
+  <div class="alert alert-success" *ngIf="isSuccessful">
+    Your registration is successful!
   </div>
 </div>

@@ -8,7 +8,9 @@ import { RegisterComponent } from './register/register.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import { HomeComponent } from './home/home.component';
-import { ImageMapComponent } from './image-map/image-map.component';
+import {CommonModule} from "@angular/common";
+import {interceptorProviders} from "./config/auth.interceptor";
+import { LoginPasswordComponent } from './login-password/login-password.component';
 
 @NgModule({
   declarations: [
@@ -16,15 +18,16 @@ import { ImageMapComponent } from './image-map/image-map.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    ImageMapComponent
+    LoginPasswordComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [interceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

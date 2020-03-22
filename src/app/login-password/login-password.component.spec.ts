@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageMapComponent } from './image-map.component';
+import { LoginPasswordComponent } from './login-password.component';
 
-describe('ImageMapComponent', () => {
-  let component: ImageMapComponent;
-  let fixture: ComponentFixture<ImageMapComponent>;
+describe('LoginPasswordComponent', () => {
+  let component: LoginPasswordComponent;
+  let fixture: ComponentFixture<LoginPasswordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageMapComponent ]
+      declarations: [ LoginPasswordComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageMapComponent);
+    fixture = TestBed.createComponent(LoginPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
