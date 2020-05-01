@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageMapComponent } from './image-map.component';
+import { UserDashboardComponent } from './user-dashboard.component';
 
-describe('ImageMapComponent', () => {
-  let component: ImageMapComponent;
-  let fixture: ComponentFixture<ImageMapComponent>;
+describe('UserDashboardComponent', () => {
+  let component: UserDashboardComponent;
+  let fixture: ComponentFixture<UserDashboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageMapComponent ]
+      declarations: [ UserDashboardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageMapComponent);
+    fixture = TestBed.createComponent(UserDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

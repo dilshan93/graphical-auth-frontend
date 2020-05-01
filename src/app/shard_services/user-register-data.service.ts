@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
-import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterService {
+export class UserRegisterDataService {
 
   protected registeredData = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   getRegisteredData(): Observable<any>{
     return this.registeredData.asObservable();
@@ -20,7 +18,11 @@ export class RegisterService {
     this.registeredData.next(data);
   }
 
-  saveUser(obj:any): Observable<any>{
-    return this.http.post(environment.SAVE, obj);
+  getLoginData(): Observable<any>{
+    return this.registeredData.asObservable();
+  }
+
+  setLoginData(data: any) {
+    this.registeredData.next(data);
   }
 }

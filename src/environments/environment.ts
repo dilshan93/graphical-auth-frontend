@@ -4,9 +4,12 @@
 
 export const environment = {
   production: false,
-  GETALL: "http://localhost:8090/login/getAll",
   SAVE: "http://localhost:8090/login/Save",
-  GETUSER: "http://localhost:8090/login/getUserLogin"
+  LOGUSER: "http://localhost:8090/login/getUserLogin",
+  GETIMAGE: "http://localhost:8090/login/get/",
+  GETALL: "http://localhost:8090/autherized/all",
+  GETUSER: "http://localhost:8090/autherized/user",
+  GETADMIN: "http://localhost:8090/autherized/admin"
 };
 
 /*

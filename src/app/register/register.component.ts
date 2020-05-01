@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RegisterService} from "./register.service";
 import {Router} from "@angular/router";
+import {UserRegisterDataService} from "../shard_services/user-register-data.service";
 
 @Component({
   selector: 'app-register',
@@ -10,8 +11,9 @@ import {Router} from "@angular/router";
 })
 export class RegisterComponent implements OnInit {
 
-  public userRegisterFormGroup: FormGroup
-  constructor(private formBuilder: FormBuilder, private registerService : RegisterService,
+  public userRegisterFormGroup: FormGroup;
+  fileData: File = null;
+  constructor(private formBuilder: FormBuilder, private registerService : UserRegisterDataService,
               private router: Router) { }
 
   ngOnInit() {
@@ -20,30 +22,40 @@ export class RegisterComponent implements OnInit {
 
   private initForm() {
     this.userRegisterFormGroup = this.formBuilder.group({
-      firstName: this.formBuilder.control(null),
-      lastName: this.formBuilder.control(null),
-      userName: this.formBuilder.control(null),
-      password: this.formBuilder.control(null),
-      email: this.formBuilder.control(null)
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      userName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      passImag: [null, Validators.required]
 
     })
   }
 
   saveUser() {
+    if (this.userRegisterFormGroup.invalid) {
+      alert("Please fill the required fileds")
+      return;
+    }
     const obj ={
       firstName: this.userRegisterFormGroup.value.firstName,
       lastName: this.userRegisterFormGroup.value.lastName,
       userName: this.userRegisterFormGroup.value.userName,
-      passWord: this.userRegisterFormGroup.value.password,
-      email: this.userRegisterFormGroup.value.email
+      email: this.userRegisterFormGroup.value.email,
+      passImag: this.fileData
     }
+    this.registerService.setRegisteredData(obj);
+    this.router.navigate(['/registerpassword']);
 
-    this.registerService.saveUser(obj).subscribe(()=>{
-      alert("Success");
-      this.router.navigate(['/login']);
-    },
-      (error: Error)=>{
-      alert(error);
-      });
+    // this.registerService.saveUser(obj).subscribe(()=>{
+    //   alert("Success");
+    //   this.router.navigate(['/login']);
+    // },
+    //   (error: Error)=>{
+    //   alert(error);
+    //   });
+  }
+
+  fileProgress(fileInput: any) {
+    this.fileData = <File>fileInput.target.files[0];
   }
 }
