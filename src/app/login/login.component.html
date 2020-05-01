@@ -14,4 +14,7 @@
 
         <a routerLink="/register" class="btn btn-link">Register</a>
   </div>
+<div class="image-preview mb-3" *ngIf="stringImage">
+     <img [src]="stringImage" height="300" />
+   </div>
 

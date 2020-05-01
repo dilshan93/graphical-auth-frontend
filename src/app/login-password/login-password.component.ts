@@ -3,13 +3,15 @@ import {UserRegisterDataService} from "../shard_services/user-register-data.serv
 import {AuthenticationService} from "../shard_services/authentication.service";
 import {fromEvent} from "rxjs";
 import {StorTokenService} from "../shard_services/stor-token.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-password',
   templateUrl: './login-password.component.html',
   styleUrls: ['./login-password.component.scss']
 })
-export class LoginPasswordComponent implements OnInit, AfterViewInit {
+export class LoginPasswordComponent implements OnInit
+{
 
   @ViewChild('myCanvas', {static: false}) public myCanvas: ElementRef;
   private context: CanvasRenderingContext2D;
@@ -19,27 +21,48 @@ export class LoginPasswordComponent implements OnInit, AfterViewInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  stringImage:string = null;
+  defaultImage:string="assets/images/test.jpg";
 
   constructor(private registerService: UserRegisterDataService, private authenticationService: AuthenticationService,
-              private storTokenService : StorTokenService) { }
+              private storTokenService : StorTokenService,private router: Router) { }
 
   ngOnInit(): void {
     if (this.storTokenService.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.storTokenService.getUser().roles;
+      this.router.navigate(['/userProfile']);
     }
     this.registerService.getLoginData().subscribe(value => {
       this.dataObj = value;
     });
 
+    this.authenticationService.getImage(this.dataObj.userName).subscribe(
+      data => {
+        if(data === "nouser"){
+          this.loadCanvas(this.defaultImage);
+        }
+        this.stringImage = data;
+        this.loadCanvas(this.stringImage);
+      },
+      err => {
+        console.log("ERROR");
+      }
+    );
+
   }
 
 
   ngAfterViewInit(): void {
+   // const imsgeURL = "assets/images/test.jpg";
+   // this.loadCanvas(imsgeURL);
+  }
+
+  public loadCanvas(imageUrl:any){
     const canvasEl: HTMLCanvasElement = this.myCanvas.nativeElement;
     this.context = (<HTMLCanvasElement>this.myCanvas.nativeElement).getContext('2d');
     let background = new Image();
-    background.src = "assets/images/test.jpg";
+    background.src = imageUrl;
     background.onload = () => {
       this.context.drawImage(background, 0, 0, 500, 500);
       this.draw();
@@ -96,11 +119,12 @@ export class LoginPasswordComponent implements OnInit, AfterViewInit {
           this.isLoggedIn = true;
           console.log(this.storTokenService.getUser());
           this.roles = this.storTokenService.getUser().roles;
-          //this.dataObj = null;
+          this.dataObj = null;
           this.reloadPage();
+          this.router.navigate(['/registerpassword']);
         },
         err => {
-          this.errorMessage = 'err.error.message';
+          this.errorMessage = err.error.message;
           this.isLoginFailed = true;
         }
       );

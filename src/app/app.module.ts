@@ -11,6 +11,10 @@ import { HomeComponent } from './home/home.component';
 import {CommonModule} from "@angular/common";
 import {interceptorProviders} from "./config/auth.interceptor";
 import { LoginPasswordComponent } from './login-password/login-password.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { RegisterPasswordComponent } from './register-password/register-password.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import { LoginPasswordComponent } from './login-password/login-password.componen
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    LoginPasswordComponent
+    LoginPasswordComponent,
+    UserProfileComponent,
+    AdminDashboardComponent,
+    UserDashboardComponent,
+    RegisterPasswordComponent
   ],
   imports: [
     BrowserModule,

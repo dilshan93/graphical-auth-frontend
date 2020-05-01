@@ -18,9 +18,9 @@ export class AuthenticationService {
     return this.httpClient.post(environment.LOGUSER, obj, httpContent);
   }
   registerUser(obj:any): Observable<any>{
-    console.log(httpContent);
-    console.log(obj);
-    console.log(environment.SAVE);
     return this.httpClient.post(environment.SAVE, obj);
+  }
+  getImage(user:any): Observable<any>{
+    return this.httpClient.get(environment.GETIMAGE+user, {responseType: 'text'});
   }
 }

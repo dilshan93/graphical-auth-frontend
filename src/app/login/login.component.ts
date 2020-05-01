@@ -3,6 +3,7 @@ import {LoginService} from "./login.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserRegisterDataService} from "../shard_services/user-register-data.service";
+import {AuthenticationService} from "../shard_services/authentication.service";
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,10 @@ import {UserRegisterDataService} from "../shard_services/user-register-data.serv
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public loginFormGroup: FormGroup
+  public loginFormGroup: FormGroup;
+  stringImage:any;
 
-  constructor(private formBuilder: FormBuilder, private registerService : UserRegisterDataService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private registerService : UserRegisterDataService, private router: Router, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -33,6 +35,17 @@ export class LoginComponent implements OnInit {
     }
     this.registerService.setLoginData(obj);
     this.router.navigate(['/loginpassword']);
+    // this.authenticationService.getImage(this.loginFormGroup.value.username).subscribe(
+    //   data => {
+    //     console.log("SUCCESS");
+    //     console.log(data);
+    //     this.stringImage = data;
+    //   },
+    //   err => {
+    //     console.log("ERROR");
+    //   }
+    // );
+      }
 
 //     this.loginService.getUser(obj).subscribe((response) =>{
 //
@@ -45,6 +58,6 @@ export class LoginComponent implements OnInit {
 //       }
 //
 // );
-  }
+
 
 }

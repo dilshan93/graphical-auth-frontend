@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   SAVE: "http://localhost:8090/login/Save",
   LOGUSER: "http://localhost:8090/login/getUserLogin",
+  GETIMAGE: "http://localhost:8090/login/get/",
   GETALL: "http://localhost:8090/autherized/all",
   GETUSER: "http://localhost:8090/autherized/user",
   GETADMIN: "http://localhost:8090/autherized/admin"
