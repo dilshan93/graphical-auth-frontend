@@ -44,6 +44,10 @@ const routes: Routes = [
     component: UserDashboardComponent
   },
   {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
     path: '**',
     redirectTo: ''
   }
